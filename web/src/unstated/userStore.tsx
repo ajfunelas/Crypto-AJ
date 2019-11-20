@@ -42,7 +42,7 @@ export const UserStore = () => {
 	}
 	const tglFaves = (userId: string, coinId: string) => {
 		if (initUser) {
-			postData("/api/favourites/toggle", {
+			postData("http://localhost:8080/api/favourites/toggle", {
 				user_ID: userId,
 				CoinID: coinId,
 			})
@@ -51,7 +51,7 @@ export const UserStore = () => {
 				})
 				.then(d => {
 					if (d) {
-						postData("/api/favourites/list", { uid: userId }).then(faveList => {
+						postData("http://localhost:8080/api/favourites/list", { uid: userId }).then(faveList => {
 							setUserFaves(faveList ? faveList : [])
 						})
 					}
@@ -59,7 +59,7 @@ export const UserStore = () => {
 		}
 	}
 	const getSetFaves = async (id: string) => {
-		await postData("/api/favourites/list", { uid: id }).then(data => {
+		await postData("http://localhost:8080/api/favourites/list", { uid: id }).then(data => {
 			console.log(data)
 			setUserFaves(data ? data : [])
 		})
@@ -73,7 +73,7 @@ export const UserStore = () => {
 	const [getData, setGetData] = useState<coinData>()
 
 	const getOneCoin = async (id: string) => {
-		await postData("/api/getonecoin", { id: id.toString() }).then(data => {
+		await postData("http://localhost:8080/api/getonecoin", { id: id.toString() }).then(data => {
 			setGetData(data)
 		})
 	}
@@ -111,6 +111,8 @@ export const UserStore = () => {
 		setOnLine(false)
 		setisLoggedIn(false)
 		setInitUser(undefined)
+		setisRegistered(false)
+		setUserFaves([])
 	}
 
 	// 1# Login Init
@@ -121,7 +123,7 @@ export const UserStore = () => {
 	// Sign In Event Handler
 	const handleLogin = async (evt: MouseEvent) => {
 		evt.preventDefault()
-		postData("/api/signin", { email: login_emailInput, password: login_passwordInput }).then(data => {
+		postData("http://localhost:8080/api/signin", { email: login_emailInput, password: login_passwordInput }).then(data => {
 			if (data.id != undefined) {
 				const currentUserFromSql: loginUser = {
 					Id: data.id,
@@ -149,11 +151,12 @@ export const UserStore = () => {
 	// Register Event Handler
 	const handleReg = async (evt: MouseEvent) => {
 		evt.preventDefault()
-		postData("/api/signup", { username: reg_username, email: reg_emailInput, password: reg_passwordInput }).then(data => {
+		postData("http://localhost:8080/api/signup", { username: reg_username, email: reg_emailInput, password: reg_passwordInput }).then(data => {
 			if (regInputValidator) {
 				const currentUserFromSql: regisUser = {
 					Id: data.id,
 					isRegistered: true,
+					isLoggedIn: true,
 					username: data.username,
 					email: data.email,
 					password: data.password,
@@ -162,6 +165,8 @@ export const UserStore = () => {
 				getSetFaves(currentUserFromSql.Id)
 				setisRegistered(true)
 				setOnLine(true)
+				setInitUser(currentUserFromSql)
+				setisLoggedIn(true)
 				alert("Registered!")
 			} else {
 				alert("Email already registered!")
@@ -173,9 +178,11 @@ export const UserStore = () => {
 	// Control format verifying
 	const regInputValidator = () => {
 		if (reg_emailInput === "") {
-			return false
+			console.log("Email Input is empty")
+			return true
 		} else if (reg_passwordInput.length < 8) {
-			return false
+			console.log("password should be 8 or more characters")
+			return true
 		} else if (!checkEmail) {
 			return false
 		}

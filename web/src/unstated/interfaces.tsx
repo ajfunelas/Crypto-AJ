@@ -8,6 +8,7 @@ export interface loginUser {
 export interface regisUser {
 	Id: string
 	isRegistered: boolean
+	isLoggedIn: boolean
 	username: string
 	email: string
 	password: string
