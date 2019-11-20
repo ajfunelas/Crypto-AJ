@@ -170,7 +170,7 @@ export const UserStore = () => {
 	}
 
 	// #Validation
-	// Control format varifiying
+	// Control format verifying
 	const regInputValidator = () => {
 		if (reg_emailInput === "") {
 			return false
