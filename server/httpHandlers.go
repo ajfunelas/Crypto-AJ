@@ -35,7 +35,7 @@ func (d *DbDriver) startRoutes() {
 	r.Post("/api/getonecoin", d.getOneCoin)
 
 	
-	http.ListenAndServe(":8080", r)
+	http.ListenAndServe(":8082", r)
 	
 }
 // Get Products Function

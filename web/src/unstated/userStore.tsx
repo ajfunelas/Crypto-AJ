@@ -42,7 +42,7 @@ export const UserStore = () => {
 	}
 	const tglFaves = (userId: string, coinId: string) => {
 		if (initUser) {
-			postData("http://localhost:8080/api/favourites/toggle", {
+			postData("/api/favourites/toggle", {
 				user_ID: userId,
 				CoinID: coinId,
 			})
@@ -51,7 +51,7 @@ export const UserStore = () => {
 				})
 				.then(d => {
 					if (d) {
-						postData("http://localhost:8080/api/favourites/list", { uid: userId }).then(faveList => {
+						postData("/api/favourites/list", { uid: userId }).then(faveList => {
 							setUserFaves(faveList ? faveList : [])
 						})
 					}
@@ -59,7 +59,7 @@ export const UserStore = () => {
 		}
 	}
 	const getSetFaves = async (id: string) => {
-		await postData("http://localhost:8080/api/favourites/list", { uid: id }).then(data => {
+		await postData("/api/favourites/list", { uid: id }).then(data => {
 			console.log(data)
 			setUserFaves(data ? data : [])
 		})
@@ -73,7 +73,7 @@ export const UserStore = () => {
 	const [getData, setGetData] = useState<coinData>()
 
 	const getOneCoin = async (id: string) => {
-		await postData("http://localhost:8080/api/getonecoin", { id: id.toString() }).then(data => {
+		await postData("/api/getonecoin", { id: id.toString() }).then(data => {
 			setGetData(data)
 		})
 	}
@@ -121,7 +121,7 @@ export const UserStore = () => {
 	// Sign In Event Handler
 	const handleLogin = async (evt: MouseEvent) => {
 		evt.preventDefault()
-		postData("http://localhost:8080/api/signin", { email: login_emailInput, password: login_passwordInput }).then(data => {
+		postData("/api/signin", { email: login_emailInput, password: login_passwordInput }).then(data => {
 			if (data.id != undefined) {
 				const currentUserFromSql: loginUser = {
 					Id: data.id,
@@ -149,7 +149,7 @@ export const UserStore = () => {
 	// Register Event Handler
 	const handleReg = async (evt: MouseEvent) => {
 		evt.preventDefault()
-		postData("http://localhost:8080/api/signup", { username: reg_username, email: reg_emailInput, password: reg_passwordInput }).then(data => {
+		postData("/api/signup", { username: reg_username, email: reg_emailInput, password: reg_passwordInput }).then(data => {
 			if (regInputValidator) {
 				const currentUserFromSql: regisUser = {
 					Id: data.id,
@@ -250,5 +250,7 @@ export const UserStore = () => {
 		setInitUser,
 	}
 }
+
+// http://localhost:8080
 
 export const StoreContainer = createContainer(UserStore)
