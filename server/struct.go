@@ -83,3 +83,8 @@ type UserInfo struct {
 	Password string `json:"password"`
 }
 
+type ErrorResponse struct {
+	Message string `json:"message,omitempty"`
+	Success bool   `json:"success,omitempty"`
+}
+

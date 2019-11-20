@@ -6,10 +6,10 @@ import (
     "encoding/json"
     "time"
     "database/sql"
-    "log"
+	"log"
 	// "net/http"
 	// "encoding/json"
-	
+	"golang.org/x/crypto/bcrypt"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/cors"
     uuid "github.com/gofrs/uuid"
@@ -35,7 +35,7 @@ func (d *DbDriver) startRoutes() {
 	r.Post("/api/getonecoin", d.getOneCoin)
 
 	
-	http.ListenAndServe(":8082", r)
+	http.ListenAndServe(":8080", r)
 	
 }
 // Get Products Function

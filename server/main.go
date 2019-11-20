@@ -10,10 +10,10 @@ import (
 )
 const (
 	host     = "localhost"
-	port     = 5432
-	user     = "cryptoaj"
+	port     = 6432
+	user     = "coinbase"
 	password = "dev"
-	dbname   = "cryptoaj"
+	dbname   = "coinbase"
   )
   
 
