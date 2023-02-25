@@ -8,5 +8,6 @@ require (
 	github.com/gofrs/uuid v3.2.0+incompatible
 	github.com/jmoiron/sqlx v1.2.0
 	github.com/lib/pq v1.2.0
-	golang.org/x/crypto v0.0.0-20191119213627-4f8c1d86b1ba
+	golang.org/x/crypto v0.1.0
+	google.golang.org/appengine v1.6.7 // indirect
 )
